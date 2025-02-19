@@ -1,0 +1,7 @@
+ignore-dirs:
+  - dist
+
+ignores:
+  - "@types/*"
+  - eslint-config-next
+  - postcss
