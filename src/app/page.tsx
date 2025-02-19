@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/image"
 
 export default function Home() {
   return (
@@ -13,9 +13,7 @@ export default function Home() {
           priority
         />
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            We got started!
-          </li>
+          <li className="mb-2">We got started!</li>
           <li>Save and see your changes instantly.</li>
         </ol>
 
@@ -93,5 +91,5 @@ export default function Home() {
         </a>
       </footer>
     </div>
-  );
+  )
 }
