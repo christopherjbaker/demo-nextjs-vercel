@@ -13,6 +13,7 @@
     "lint-eslint": "eslint .",
     "lint-prettier": "prettier --check .",
     "lint-depcheck": "depcheck .",
+    "generate-types": "npx supabase gen types typescript --project-id cbxnbmobcqdigdzomxob > src/shared/services/supabase/database.types.ts",
     "dev": "next dev --turbopack",
     "clean": "rm -rf .next",
     "build": "next build",
