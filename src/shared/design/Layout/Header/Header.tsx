@@ -1,3 +1,5 @@
+"use client"
+
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded"
 import MenuIcon from "@mui/icons-material/Menu"
 import AppBar from "@mui/material/AppBar"
@@ -10,12 +12,13 @@ import IconButton from "@mui/material/IconButton"
 import MenuItem from "@mui/material/MenuItem"
 import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
-import React, { useState } from "react"
+import NextLink from "next/link"
+import { useState } from "react"
 
 import ColorModeDropdown from "./ColorModeDropdown"
 
 export interface NavigationItem {
-  to: string
+  href: string
   label: string
   exact?: boolean
 }
@@ -59,7 +62,7 @@ const Header: React.FC<{ navigation: NavigationItem[] }> = ({ navigation }) => {
               paddingRight: "0.85rem",
             }}
           >
-            SWAPI
+            Demo
           </Typography>
 
           <Box sx={{ display: { xs: "flex", md: "none" }, gap: 1 }}>
@@ -90,8 +93,8 @@ const Header: React.FC<{ navigation: NavigationItem[] }> = ({ navigation }) => {
                   </IconButton>
                 </Box>
 
-                {navigation.map(({ label, to }) => (
-                  <MenuItem key={label} component={RouterLink} to={to}>
+                {navigation.map(({ label, href }) => (
+                  <MenuItem key={label} component={NextLink} href={href}>
                     {label}
                   </MenuItem>
                 ))}
@@ -112,11 +115,11 @@ const Header: React.FC<{ navigation: NavigationItem[] }> = ({ navigation }) => {
           </Box>
 
           <Box sx={{ display: { xs: "none", md: "flex" }, flexGrow: 1 }}>
-            {navigation.map(({ label, to }) => (
+            {navigation.map(({ label, href }) => (
               <Button
                 key={label}
-                component={RouterLink}
-                to={to}
+                component={NextLink}
+                href={href}
                 variant="text"
                 color="info"
                 sx={{
@@ -144,10 +147,3 @@ const Header: React.FC<{ navigation: NavigationItem[] }> = ({ navigation }) => {
 }
 
 export default Header
-
-const RouterLink: React.FC<React.ComponentProps<"a"> & { to: string }> = ({
-  to,
-  ...props
-}) => {
-  return <a {...props} href={to} />
-}

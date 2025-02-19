@@ -4,4 +4,3 @@ ignore-dirs:
 ignores:
   - "@types/*"
   - eslint-config-next
-  - postcss

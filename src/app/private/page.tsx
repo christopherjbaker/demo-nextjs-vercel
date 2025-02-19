@@ -1,5 +1,7 @@
+import { Typography } from "@mui/material"
 import { redirect } from "next/navigation"
 
+import Page from "#design/Page"
 import { createClient } from "#shared/services/supabase/server"
 
 export default async function PrivatePage() {
@@ -7,8 +9,12 @@ export default async function PrivatePage() {
 
   const { data, error } = await supabase.auth.getUser()
   if (error || !data?.user) {
-    redirect("/login")
+    redirect("/auth/login")
   }
 
-  return <p>Hello {data.user.email}</p>
+  return (
+    <Page title="Hello">
+      <Typography>Hello {data.user.email}</Typography>
+    </Page>
+  )
 }

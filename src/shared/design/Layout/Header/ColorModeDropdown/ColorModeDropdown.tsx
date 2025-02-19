@@ -1,3 +1,5 @@
+"use client"
+
 import DarkModeIcon from "@mui/icons-material/DarkModeRounded"
 import LightModeIcon from "@mui/icons-material/LightModeRounded"
 import IconButton, { IconButtonOwnProps } from "@mui/material/IconButton"
