@@ -1,10 +1,30 @@
 import { createClient } from "../supabase/server"
 
 export async function getUser() {
-  const client = await createClient()
+  const clientUser = await createClient()
   const {
     data: { user },
-  } = await client.auth.getUser()
+    error: errorUser,
+  } = await clientUser.auth.getUser()
 
-  return user
+  if (errorUser || !user) throw new Error()
+
+  const clientExtra = await createClient()
+  const { data: extra, error: errorExtra } = await clientExtra
+    .from("Users")
+    .select("*")
+    .eq("user_uid", user.id)
+    .limit(1)
+    .single()
+
+  if (errorExtra || !extra) throw new Error()
+
+  return {
+    ...extra,
+    email: user.email,
+    phone: user.phone,
+    role: user.role,
+    is_anonymous: user.is_anonymous,
+    user,
+  }
 }

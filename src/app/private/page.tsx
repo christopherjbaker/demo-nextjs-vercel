@@ -8,7 +8,7 @@ import { getUser } from "#shared/services/auth/user"
 export default async function PrivatePage() {
   const user = await getUser()
   if (!user) {
-    redirect("/auth/login")
+    return redirect("/auth/login")
   }
 
   const demos = await getDemos()

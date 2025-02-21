@@ -1,5 +1,6 @@
 "use client"
 
+import SvgIcon from "@mui/material/SvgIcon"
 import DarkModeIcon from "@mui/icons-material/DarkModeRounded"
 import LightModeIcon from "@mui/icons-material/LightModeRounded"
 import IconButton, { IconButtonOwnProps } from "@mui/material/IconButton"
@@ -28,10 +29,6 @@ const ColorModeDropdown: React.FC<IconButtonOwnProps> = ({ ...props }) => {
     handleClose()
   }
 
-  if (!mode) {
-    return null
-  }
-
   return (
     <>
       <IconButton
@@ -43,6 +40,7 @@ const ColorModeDropdown: React.FC<IconButtonOwnProps> = ({ ...props }) => {
       >
         {resolvedMode === "light" && <LightModeIcon />}
         {resolvedMode === "dark" && <DarkModeIcon />}
+        {!resolvedMode && <SvgIcon />}
       </IconButton>
 
       <Menu

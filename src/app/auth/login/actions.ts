@@ -6,41 +6,68 @@ import { redirect } from "next/navigation"
 import { createClient } from "#shared/services/supabase/server"
 
 export async function login(formData: FormData) {
-  const supabase = await createClient()
-
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
+    email: formData.get("email"),
+    password: formData.get("password"),
+    name: formData.get("name"),
   }
 
-  const { error } = await supabase.auth.signInWithPassword(data)
+  if (typeof data.email !== "string" || typeof data.password !== "string") {
+    throw new Error("Invalid form data.")
+  }
+
+  const supabase = await createClient()
+  const { error } = await supabase.auth.signInWithPassword({
+    email: data.email,
+    password: data.password,
+  })
 
   if (error) {
-    redirect("/error")
+    return redirect("/error")
   }
 
   revalidatePath("/", "layout")
-  redirect("/")
+  return redirect("/")
 }
 
 export async function signup(formData: FormData) {
-  const supabase = await createClient()
-
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
+    email: formData.get("email"),
+    password: formData.get("password"),
+    name: formData.get("name"),
   }
 
-  const { error } = await supabase.auth.signUp(data)
+  if (
+    typeof data.email !== "string" ||
+    typeof data.password !== "string" ||
+    typeof data.name !== "string"
+  ) {
+    throw new Error("Invalid form data.")
+  }
 
-  if (error) {
-    redirect("/error")
+  const clientUser = await createClient()
+  const {
+    data: { user },
+    error: errorUser,
+  } = await clientUser.auth.signUp({
+    email: data.email,
+    password: data.password,
+  })
+
+  if (errorUser || !user) {
+    return redirect(`/error?error=${errorUser?.message ?? ""}`)
+  }
+
+  const clientExtra = await createClient()
+  const { error: errorExtra } = await clientExtra.from("Users").insert({
+    user_uid: user.id,
+    name: data.name,
+  })
+
+  if (errorExtra) {
+    return redirect(`/error?error=${errorExtra.message}`)
   }
 
   revalidatePath("/", "layout")
-  redirect("/")
+  return redirect("/")
 }
